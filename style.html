@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      const sections = [...document.querySelectorAll("main section[id]")];
+const navLinks = [...document.querySelectorAll(".main-nav a")];
+
+const updateActiveNav = () => {
+  const scrollPoint = window.scrollY + window.innerHeight * 0.3;
+
+  let current = sections[0]?.id;
+
+  sections.forEach((section) => {
+    if (scrollPoint >= section.offsetTop) {
+      current = section.id;
+    }
+  });
+
+  navLinks.forEach((link) => {
+    const isActive = link.getAttribute("href") === `#${current}`;
+    link.classList.toggle("active", isActive);
+  });
+};
+
+window.addEventListener("scroll", updateActiveNav, { passive: true });
+window.addEventListener("load", updateActiveNav);
+
+document.querySelector(".contact-form")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const button = event.currentTarget.querySelector("button");
+
+  if (!button) return;
+
+  const originalText = button.textContent;
+  button.textContent = "Message Sent";
+  button.disabled = true;
+
+  setTimeout(() => {
+    button.textContent = originalText;
+    button.disabled = false;
+    event.currentTarget.reset();
+  }, 1400);
+});
+    </script>
+
+    <style>
+
+      :root {
+  --bg: #d8d3cb;
+  --panel: #fcfbf8;
+  --panel-2: #ffffff;
+  --ink: #10162d;
+  --muted: #667085;
+  --accent: #f7be2c;
+  --accent-strong: #f0ab00;
+  --line: #e7e1d8;
+  --shadow: 0 20px 55px rgba(16, 22, 45, 0.12);
+  --radius: 28px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Montserrat", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.6), transparent 28%),
+    linear-gradient(135deg, #d9d5ce 0%, #cbc4bb 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 34px 34px;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+.page-shell {
+  width: min(1220px, calc(100% - 40px));
+  margin: 26px auto;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 22px;
+  position: relative;
+}
+
+.side-panel {
+  position: sticky;
+  top: 26px;
+  height: fit-content;
+  background: linear-gradient(180deg, #f7be2c 0%, #f4b000 100%);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px 20px;
+  overflow: hidden;
+}
+
+.side-panel::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  bottom: -60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.avatar-block {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-ring {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: #fff8df;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 8px rgba(16, 22, 45, 0.08);
+}
+
+.avatar-face,
+.portrait-face {
+  position: relative;
+  background: linear-gradient(180deg, #f0ccaf 0%, #d8ab83 100%);
+  border-radius: 42% 42% 45% 45%;
+}
+
+.avatar-face {
+  width: 70px;
+  height: 82px;
+}
+
+.avatar-face::before,
+.portrait-face::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -10px;
+  width: 80%;
+  height: 34%;
+  background: #241d1d;
+  border-radius: 48% 48% 20% 20%;
+}
+
+.glasses,
+.portrait-glasses {
+  position: absolute;
+  top: 33px;
+  width: 22px;
+  height: 14px;
+  border: 3px solid #18203e;
+  border-radius: 6px;
+}
+
+.glasses.left,
+.portrait-glasses.left {
+  left: 8px;
+}
+
+.glasses.right,
+.portrait-glasses.right {
+  right: 8px;
+}
+
+.glasses.left::after,
+.portrait-glasses.left::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 4px;
+  width: 10px;
+  height: 3px;
+  background: #18203e;
+}
+
+.nose {
+  position: absolute;
+  top: 43px;
+  left: 50%;
+  width: 3px;
+  height: 18px;
+  transform: translateX(-50%);
+  background: rgba(36, 29, 29, 0.18);
+  border-radius: 99px;
+}
+
+.avatar-block h2 {
+  margin: 0;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.avatar-block p {
+  margin: 4px 0 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.main-nav {
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
+  display: grid;
+  gap: 10px;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: var(--ink);
+  padding: 13px 14px;
+  border-radius: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  transition: 0.25s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  background: rgba(16, 22, 45, 0.92);
+  color: white;
+}
+
+.content {
+  display: grid;
+  gap: 22px;
+}
+
+.panel {
+  background: rgba(252, 251, 248, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 34px;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(16, 22, 45, 0.04);
+  pointer-events: none;
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  align-items: center;
+  min-height: 420px;
+}
+
+.eyebrow,
+.section-tag {
+  margin: 0 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-strong);
+}
+
+.section-tag::before {
+  content: "";
+  width: 38px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.hero-copy h1,
+.section-header h2 {
+  margin: 0;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: 0.03em;
+}
+
+.hero-copy h1 {
+  font-size: clamp(3rem, 7vw, 5.4rem);
+}
+
+.hero-copy h1 span {
+  color: var(--accent-strong);
+}
+
+.lead {
+  max-width: 560px;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 18px 0 26px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  border: 0;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.btn-secondary {
+  background: #141b35;
+  color: white;
+}
+
+.hero-visual {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+}
+
+.portrait-card {
+  min-height: 330px;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.2)),
+    linear-gradient(160deg, #1c2034 0%, #101521 100%);
+  display: grid;
+  place-items: end center;
+  position: relative;
+  overflow: hidden;
+}
+
+.portrait-card::before {
+  content: "";
+  position: absolute;
+  inset: auto 10% -12% 10%;
+  height: 62%;
+  background: linear-gradient(180deg, #20283c 0%, #111827 100%);
+  border-radius: 46% 46% 0 0;
+}
+
+.portrait-face {
+  width: 132px;
+  height: 158px;
+  z-index: 1;
+  margin-bottom: 110px;
+}
+
+.hair {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 108%;
+  height: 56px;
+  background: #1f1919;
+  border-radius: 42% 42% 30% 30%;
+}
+
+.portrait-glasses {
+  top: 58px;
+  width: 36px;
+  height: 20px;
+}
+
+.portrait-glasses.left {
+  left: 14px;
+}
+
+.portrait-glasses.right {
+  right: 14px;
+}
+
+.social-rail {
+  list-style: none;
+  margin: 0;
+  padding: 12px 8px;
+  background: var(--accent);
+  border-radius: 999px;
+  display: grid;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  box-shadow: 0 12px 30px rgba(247, 190, 44, 0.35);
+}
+
+.social-rail li {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(16, 22, 45, 0.92);
+  color: white;
+}
+
+.section-header {
+  margin-bottom: 24px;
+}
+
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.compact h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.9fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.about-card,
+.services-card,
+.resume-block,
+.skills-block,
+.testimonial-card,
+.contact-copy,
+.contact-form {
+  background: var(--panel-2);
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  padding: 24px;
+}
+
+.about-card p,
+.contact-copy p,
+.contact-copy li,
+.timeline p,
+.testimonial-card p,
+.card-copy p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.stats-grid article {
+  background: #141b35;
+  color: white;
+  border-radius: 22px;
+  padding: 22px 18px;
+}
+
+.stats-grid strong {
+  display: block;
+  font-family: "Oswald", sans-serif;
+  font-size: 2.1rem;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+
+.services-card h3,
+.card-copy h3,
+.timeline h3,
+.testimonial-card h3 {
+  margin-top: 0;
+}
+
+.services-card ul,
+.contact-copy ul {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+}
+
+.services-card li,
+.contact-copy li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.portfolio-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.chip {
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 999px;
+  padding: 11px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chip.active {
+  background: #141b35;
+  color: white;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.portfolio-card {
+  border-radius: 24px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.card-art {
+  height: 185px;
+  position: relative;
+}
+
+.card-art::before,
+.card-art::after {
+  content: "";
+  position: absolute;
+  border-radius: 24px;
+}
+
+.card-art::before {
+  inset: 16px 18px 46px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.card-art::after {
+  inset: 56px 34px 18px 84px;
+  background: rgba(16, 22, 45, 0.12);
+}
+
+.portfolio-card.aqua .card-art {
+  background: linear-gradient(135deg, #80e6f2, #4cb4c7);
+}
+
+.portfolio-card.amber .card-art {
+  background: linear-gradient(135deg, #ffd16d, #f09f1b);
+}
+
+.portfolio-card.lilac .card-art {
+  background: linear-gradient(135deg, #cac4ff, #9288ff);
+}
+
+.portfolio-card.coral .card-art {
+  background: linear-gradient(135deg, #ffb190, #f46d5d);
+}
+
+.portfolio-card.navy .card-art {
+  background: linear-gradient(135deg, #17203e, #324a79);
+}
+
+.portfolio-card.peach .card-art {
+  background: linear-gradient(135deg, #ffd3b6, #ffb16a);
+}
+
+.card-copy {
+  padding: 18px;
+}
+
+.split-panel {
+  display: grid;
+  grid-template-columns: 1fr 0.95fr;
+  gap: 18px;
+}
+
+.timeline {
+  display: grid;
+  gap: 16px;
+}
+
+.timeline article {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.year {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fff5d2;
+  color: #9e6a00;
+  font-weight: 800;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skill-bars {
+  display: grid;
+  gap: 14px;
+}
+
+.skill-row span {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.skill-row div {
+  height: 12px;
+  border-radius: 999px;
+  background: #e9ecf3;
+  overflow: hidden;
+}
+
+.skill-row i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+
+.tool-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.tool-badges span {
+  width: 50px;
+  height: 50px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: #141b35;
+  color: white;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.1rem;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.testimonial-card {
+  background: linear-gradient(180deg, #141b35 0%, #1e284f 100%);
+  color: white;
+}
+
+.testimonial-card p,
+.testimonial-card span {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 18px;
+}
+
+.contact-form {
+  display: grid;
+  gap: 14px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fffdfa;
+  border-radius: 18px;
+  padding: 15px 16px;
+  font: inherit;
+  color: var(--ink);
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+@media (max-width: 1080px) {
+  .page-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .side-panel {
+    position: relative;
+    top: 0;
+  }
+
+  .main-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero-panel,
+  .about-grid,
+  .split-panel,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-grid,
+  .testimonial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .page-shell {
+    width: min(100% - 20px, 1220px);
+    margin: 10px auto 24px;
+    gap: 14px;
+  }
+
+  .panel,
+  .side-panel {
+    border-radius: 22px;
+    padding: 22px;
+  }
+
+  .hero-panel {
+    min-height: auto;
+  }
+
+  .main-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-visual {
+    grid-template-columns: 1fr;
+  }
+
+  .social-rail {
+    grid-auto-flow: column;
+    grid-template-columns: repeat(4, 1fr);
+    justify-self: start;
+  }
+
+  .stats-grid,
+  .portfolio-grid,
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-copy h1 {
+    line-height: 1;
+  }
+}
+
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benjamin Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Oswald:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="side-panel">
+        <div class="avatar-block">
+          <div class="avatar-ring">
+            <div class="avatar-face">
+              <span class="glasses left"></span>
+              <span class="glasses right"></span>
+              <span class="nose"></span>
+            </div>
+          </div>
+          <h2>Benjamin</h2>
+          <p>Graphic Designer</p>
+        </div>
+
+        <nav class="main-nav">
+          <a href="#home" class="active">Home</a>
+          <a href="#about">About</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#resume">Resume</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section id="home" class="panel hero-panel">
+          <div class="hero-copy">
+            <p class="eyebrow">Hi there!</p>
+            <h1>
+              I’m <span>Benjamin</span>
+            </h1>
+            <p class="lead">
+              Graphic designer and photographer focused on clean branding,
+              sharp layouts, and modern digital experiences.
+            </p>
+            <div class="hero-actions">
+              <a href="#portfolio" class="btn btn-primary">View Portfolio</a>
+              <a href="#contact" class="btn btn-secondary">Hire Me</a>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="portrait-card">
+              <div class="portrait-face">
+                <span class="hair"></span>
+                <span class="portrait-glasses left"></span>
+                <span class="portrait-glasses right"></span>
+              </div>
+            </div>
+
+            <ul class="social-rail">
+              <li>Fb</li>
+              <li>In</li>
+              <li>Be</li>
+              <li>Dr</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="about" class="panel">
+          <div class="section-header">
+            <span class="section-tag">About Me</span>
+            <h2>Crafting strong visuals with strategy</h2>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-card">
+              <p>
+                I’m Benjamin Smith, a graphic designer and photographer who
+                builds visual systems for brands, campaigns, and personal
+                portfolios.
+              </p>
+              <p>
+                My work blends identity, storytelling, and practical UI thinking
+                so every piece looks polished and performs well.
+              </p>
+            </div>
+
+            <div class="stats-grid">
+              <article>
+                <strong>15+</strong>
+                <span>Years Experience</span>
+              </article>
+              <article>
+                <strong>350+</strong>
+                <span>Projects Completed</span>
+              </article>
+              <article>
+                <strong>200+</strong>
+                <span>Happy Clients</span>
+              </article>
+              <article>
+                <strong>45K</strong>
+                <span>Design Assets Created</span>
+              </article>
+            </div>
+
+            <div class="services-card">
+              <h3>What I Do</h3>
+              <ul>
+                <li>Brand Identity & Print Design</li>
+                <li>Portfolio and Landing Page Design</li>
+                <li>Product Mockups & Social Media Kits</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="portfolio" class="panel">
+          <div class="section-header">
+            <span class="section-tag">Portfolio</span>
+            <h2>Selected work and case studies</h2>
+          </div>
+
+          <div class="portfolio-filter">
+            <button class="chip active">All</button>
+            <button class="chip">Graphic Design</button>
+            <button class="chip">Web Design</button>
+            <button class="chip">Photography</button>
+          </div>
+
+          <div class="portfolio-grid">
+            <article class="portfolio-card aqua">
+              <div class="card-art"></div>
+              <div class="card-copy">
+                <h3>Travel Campaign</h3>
+                <p>Bold summer visual identity for a tourism launch.</p>
+              </div>
+            </article>
+            <article class="portfolio-card amber">
+              <div class="card-art"></div>
+              <div class="card-copy">
+                <h3>Lifestyle Shoot</h3>
+                <p>Editorial photography set for social and magazine use.</p>
+              </div>
+            </article>
+            <article class="portfolio-card lilac">
+              <div class="card-art"></div>
+              <div class="card-copy">
+                <h3>UI Showcase</h3>
+                <p>Clean interface concept for a design studio homepage.</p>
+              </div>
+            </article>
+            <article class="portfolio-card coral">
+              <div class="card-art"></div>
+              <div class="card-copy">
+                <h3>Sports Branding</h3>
+                <p>Energetic posters and visuals for an outdoor campaign.</p>
+              </div>
+            </article>
+            <article class="portfolio-card navy">
+              <div class="card-art"></div>
+              <div class="card-copy">
+                <h3>Creative Toolkit</h3>
+                <p>Illustrations, icons, and templates for rapid content.</p>
+              </div>
+            </article>
+            <article class="portfolio-card peach">
+              <div class="card-art"></div>
+              <div class="card-copy">
+                <h3>Brand Stationery</h3>
+                <p>Print-ready business system with premium presentation.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="resume" class="panel split-panel">
+          <div class="resume-block">
+            <div class="section-header compact">
+              <span class="section-tag">Resume</span>
+              <h2>Education & experience</h2>
+            </div>
+
+            <div class="timeline">
+              <article>
+                <span class="year">2018 - Present</span>
+                <h3>Senior Designer & Photographer</h3>
+                <p>Studio Pixel Craft</p>
+              </article>
+              <article>
+                <span class="year">2014 - 2018</span>
+                <h3>Visual Designer</h3>
+                <p>NorthWave Agency</p>
+              </article>
+              <article>
+                <span class="year">2010 - 2014</span>
+                <h3>Bachelor of Fine Arts</h3>
+                <p>University of Art & Design</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="skills-block">
+            <div class="section-header compact">
+              <span class="section-tag">Skills</span>
+              <h2>Tools & strengths</h2>
+            </div>
+
+            <div class="skill-bars">
+              <div class="skill-row">
+                <span>Adobe Photoshop</span>
+                <div><i style="width: 92%"></i></div>
+              </div>
+              <div class="skill-row">
+                <span>Adobe Illustrator</span>
+                <div><i style="width: 88%"></i></div>
+              </div>
+              <div class="skill-row">
+                <span>Figma / UI Design</span>
+                <div><i style="width: 84%"></i></div>
+              </div>
+              <div class="skill-row">
+                <span>Lightroom</span>
+                <div><i style="width: 90%"></i></div>
+              </div>
+            </div>
+
+            <div class="tool-badges">
+              <span>Ps</span>
+              <span>Ai</span>
+              <span>Fg</span>
+              <span>Lr</span>
+              <span>Id</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="testimonials" class="panel">
+          <div class="section-header">
+            <span class="section-tag">Testimonials</span>
+            <h2>What clients say</h2>
+          </div>
+
+          <div class="testimonial-grid">
+            <article class="testimonial-card">
+              <p>
+                “Benjamin turned a rough idea into a polished brand system that
+                instantly looked premium.”
+              </p>
+              <h3>Jenny Wilson</h3>
+              <span>Art Director</span>
+            </article>
+            <article class="testimonial-card">
+              <p>
+                “Fast, thoughtful, and incredibly consistent. The final portfolio
+                felt far above our expectations.”
+              </p>
+              <h3>Mark Lawson</h3>
+              <span>Startup Founder</span>
+            </article>
+            <article class="testimonial-card">
+              <p>
+                “His layouts are sharp and clean, and the photography direction
+                made our campaign stand out immediately.”
+              </p>
+              <h3>Brand Brown</h3>
+              <span>Marketing Lead</span>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact" class="panel contact-panel">
+          <div class="section-header">
+            <span class="section-tag">Contact</span>
+            <h2>Let’s work together</h2>
+          </div>
+
+          <div class="contact-grid">
+            <div class="contact-copy">
+              <p>
+                Available for freelance projects, branding systems, portfolio
+                websites, and creative direction work.
+              </p>
+              <ul>
+                <li>+91 98765 43210</li>
+                <li>hello@benjaminsmith.design</li>
+                <li>Mumbai, India</li>
+              </ul>
+            </div>
+
+            <form class="contact-form">
+              <input type="text" placeholder="Your Name" />
+              <input type="email" placeholder="Email Address" />
+              <textarea rows="5" placeholder="Tell me about your project"></textarea>
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
